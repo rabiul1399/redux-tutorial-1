@@ -1,8 +1,14 @@
+// 1. state = count:0
+//2.  action = increment,decrement
+//3.  reducer
+//4 . store = getState(),subscribe(),dispatch()
+
 const { createStore } = require("redux");
 
 // defining constans 
 const INCREMENT = 'INCREMENT';
 const DECREMENT = 'DECREMENT';
+const RESET = "RESET";
 
 // state 
 const initalCounterState = {
@@ -23,6 +29,12 @@ const decrementCounter = () => {
         type: DECREMENT,
     }
 }
+// RESET  Counter
+const resetCounter = () => {
+    return {
+        type: RESET,
+    }
+}
 
 // create reducer for counter
 const counterReducer = (state = initalCounterState, action) => {
@@ -39,20 +51,21 @@ const counterReducer = (state = initalCounterState, action) => {
                 count: state.count - 1,
             }
 
+        case RESET:
+            return {
+                ...state,
+                count: 0,
+            }
+
         default:
             state;
     }
 }
 
-// 1. state
-//2. dispatch action
-//3. reducer
-//4 . store = getState(),dispatch(),subscribe()
-
 // create store 
 const store = createStore(counterReducer)
 
-store.subscribe(()=>{
+store.subscribe(() => {
     console.log(store.getState());
 
 })
@@ -63,3 +76,4 @@ store.dispatch(incrementCounter())
 store.dispatch(incrementCounter())
 store.dispatch(incrementCounter())
 store.dispatch(decrementCounter())
+store.dispatch(resetCounter())
